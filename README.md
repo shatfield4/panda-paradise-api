@@ -44,3 +44,4 @@ You can also use the OpenSea.js SDK to create sell orders. You can [create sell 
 ## Troubleshooting
 
 If you have questions, contact the OpenSea team on [Discord](https://discord.gg/ga8EJbv). We're very responsive!
+# panda-paradise-api
