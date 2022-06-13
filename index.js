@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
 })
 app.use('/images', express.static('./storage/images'));
 
-app.get('/api/token/:token_id', function(req, res) {
+app.get('/api/token/:token_id.json', function(req, res) {
   const tokenId = parseInt(req.params.token_id).toString()
 
   if (parseInt(tokenId) < 0 || parseInt(tokenId) > 8887) {
@@ -36,12 +36,16 @@ app.get('/api/token/:token_id', function(req, res) {
   fs.readFile('./storage/metadata/' + tokenId + '.json', (err, fileObj) => {
     if (err) throw err;
     let file = JSON.parse(fileObj);
-
+    let jsonAttributes = file['attributes'];
+    if(parseInt(tokenId) >= 0 && parseInt(tokenId) < 888) {
+        // Adds genesis trait is 0-887
+        jsonAttributes[jsonAttributes.length] = {"trait_type": "Type", "value": "Genesis"};
+    }
     const data = {
       "name": `Panda Paradise #${tokenId}`,
       "description": "Panda Paradise is a collection of 8,888 unique Panda NFTs - living on the Ethereum blockchain. Your Panda Paradise NFT is also your exclusive ticket into our diverse and growing community, and grants access to holder on benefits, which include future airdrop, utility token mechanisms, and our upcoming sandbox MMORPG. All this will be unlocked by our team of developers and community through our roadmap milestones. Join our Paradise here, https://pandaparadise.io/.",
       "image": `${HOST}/${tokenId}.png`,
-      "attributes": file['attributes'],
+      "attributes": jsonAttributes,
     }
     res.send(data)
 
